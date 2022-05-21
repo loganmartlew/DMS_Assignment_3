@@ -4,6 +4,7 @@
  */
 package user;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import java.io.Serializable;
 import jakarta.persistence.Entity;
@@ -30,7 +31,7 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<TodoList> todoLists;
 
     public String getEmail() {

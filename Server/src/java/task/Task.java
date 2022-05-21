@@ -4,6 +4,7 @@
  */
 package task;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -34,7 +35,7 @@ public class Task implements Serializable {
     @Column(name = "isComplete")
     private boolean isComplete;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "todolist_id", referencedColumnName = "id")
     private TodoList todoList;
 

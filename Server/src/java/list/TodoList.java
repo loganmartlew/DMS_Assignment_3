@@ -4,6 +4,7 @@
  */
 package list;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -34,10 +35,10 @@ public class TodoList implements Serializable {
     @Column(name = "name")
     private String name;
     
-    @OneToMany(mappedBy = "todoList")
+    @OneToMany(mappedBy = "todoList", cascade = CascadeType.PERSIST)
     private List<Task> tasks;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
