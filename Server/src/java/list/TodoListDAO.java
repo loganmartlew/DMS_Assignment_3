@@ -4,9 +4,12 @@
  */
 package list;
 
+import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import user.User;
+import user.UserDAO;
 
 /**
  *
@@ -18,10 +21,22 @@ public class TodoListDAO {
     @PersistenceContext
     private EntityManager em;
     
-    public TodoList createList(String name) {
+    @EJB
+    private UserDAO userDao;
+    
+    public TodoList createList(String userEmail, String name) {
+        User user = userDao.getUser(userEmail);
+        
         TodoList newList = new TodoList();
         newList.setName(name);
+        newList.setUser(user);
         em.persist(newList);
+        
         return newList;
+    }
+    
+    public TodoList getList(Long id) {
+        TodoList todoList = em.find(TodoList.class, id);
+        return todoList;
     }
 }

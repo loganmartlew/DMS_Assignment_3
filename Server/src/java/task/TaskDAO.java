@@ -4,9 +4,12 @@
  */
 package task;
 
+import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import list.TodoList;
+import list.TodoListDAO;
 
 /**
  *
@@ -18,11 +21,18 @@ public class TaskDAO {
     @PersistenceContext
     private EntityManager em;
     
-    public Task createTask(String name) {
+    @EJB
+    private TodoListDAO todoListDao;
+    
+    public Task createTask(Long listId, String name) {
+        TodoList list = todoListDao.getList(listId);
+        
         Task newTask = new Task();
         newTask.setName(name);
         newTask.setIsComplete(false);
+        newTask.setTodoList(list);
         em.persist(newTask);
+        
         return newTask;
     }
     
