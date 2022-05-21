@@ -8,7 +8,10 @@ import jakarta.persistence.Column;
 import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
+import list.TodoList;
 
 /**
  *
@@ -26,6 +29,9 @@ public class User implements Serializable {
 
     @Column(name = "password")
     private String password;
+    
+    @OneToMany(mappedBy = "user")
+    private List<TodoList> todoLists;
 
     public String getEmail() {
         return email;

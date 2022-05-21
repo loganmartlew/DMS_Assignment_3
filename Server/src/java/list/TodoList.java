@@ -5,6 +5,8 @@
 package list;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
@@ -14,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import task.Task;
+import user.User;
 
 /**
  *
@@ -33,6 +36,10 @@ public class TodoList implements Serializable {
     
     @OneToMany(mappedBy = "todoList")
     private List<Task> tasks;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     @Override
     public int hashCode() {
