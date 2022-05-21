@@ -22,16 +22,12 @@ public class UserDAO {
         User newUser = new User();
         newUser.setEmail(email);
         newUser.setPassword(password);
-        this.save(newUser);
+        em.persist(newUser);
         return newUser;
     }
 
     public User getUser(String email) {
         User user = em.find(User.class, email);
         return user;
-    }
-
-    public void save(User user) {
-        em.persist(user);
     }
 }
