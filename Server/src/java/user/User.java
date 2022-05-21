@@ -49,6 +49,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public List<TodoList> getTodoLists() {
+        return todoLists;
+    }
+
+    public void setTodoLists(List<TodoList> todoLists) {
+        this.todoLists = todoLists;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
