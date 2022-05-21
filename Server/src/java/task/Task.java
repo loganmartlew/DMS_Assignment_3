@@ -4,6 +4,10 @@
  */
 package task;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
@@ -35,9 +39,13 @@ public class Task implements Serializable {
     @Column(name = "isComplete")
     private boolean isComplete;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "todolist_id", referencedColumnName = "id")
-    private TodoList todoList;
+    public JsonObject toJson() {
+        JsonObjectBuilder out = Json.createObjectBuilder();
+        out.add("name", this.name);
+        out.add("isComplete", this.isComplete);
+        
+        return out.build();
+    }
 
     public Long getId() {
         return id;
@@ -61,14 +69,6 @@ public class Task implements Serializable {
 
     public void setIsComplete(boolean isComplete) {
         this.isComplete = isComplete;
-    }
-
-    public TodoList getTodoList() {
-        return todoList;
-    }
-
-    public void setTodoList(TodoList todoList) {
-        this.todoList = todoList;
     }
     
     

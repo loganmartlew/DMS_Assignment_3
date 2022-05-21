@@ -4,6 +4,10 @@
  */
 package list;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
@@ -35,12 +39,26 @@ public class TodoList implements Serializable {
     @Column(name = "name")
     private String name;
     
-    @OneToMany(mappedBy = "todoList", cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Task> tasks;
     
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    
+    public JsonObject toJson() {
+        JsonObjectBuilder out = Json.createObjectBuilder();
+        out.add("name", this.name);
+        
+        JsonArrayBuilder tasks = Json.createArrayBuilder();
+        for (Task task : this.tasks) {
+            tasks.add(task.toJson());
+        }
+        
+        out.add("tasks", tasks);
+        
+        return out.build();
+    }
 
     public Long getId() {
         return id;

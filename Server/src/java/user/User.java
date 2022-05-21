@@ -4,6 +4,10 @@
  */
 package user;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import java.io.Serializable;
@@ -33,6 +37,21 @@ public class User implements Serializable {
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<TodoList> todoLists;
+    
+    public JsonObject toJson() {
+        JsonObjectBuilder out = Json.createObjectBuilder();
+        out.add("email", this.email);
+        out.add("password", this.password);
+        
+        JsonArrayBuilder lists = Json.createArrayBuilder();
+        for (TodoList list : this.todoLists) {
+            lists.add(list.toJson());
+        }
+        
+        out.add("todoLists", lists);
+        
+        return out.build();
+    }
 
     public String getEmail() {
         return email;
