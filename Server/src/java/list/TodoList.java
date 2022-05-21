@@ -5,17 +5,22 @@
 package list;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import task.Task;
 
 /**
  *
  * @author Logan
  */
 @Entity
+@Table(name = "tkj2567_lists")
 public class TodoList implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,8 +28,11 @@ public class TodoList implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
+    
+    @OneToMany(mappedBy = "todoList")
+    private List<Task> tasks;
 
     @Override
     public int hashCode() {
