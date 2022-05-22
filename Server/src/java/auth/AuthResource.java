@@ -1,0 +1,44 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package auth;
+
+import jakarta.inject.Named;
+import jakarta.json.Json;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonStructure;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import java.io.StringReader;
+
+/**
+ *
+ * @author Logan
+ */
+@Named
+@Path("/auth")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class AuthResource {
+    @Context
+    private HttpServletRequest request;
+    
+    @POST
+    @Path("/login")
+    public String login(String body) {
+        JsonReader jsonReader = Json.createReader(new StringReader(body));
+        JsonStructure bodyJson = jsonReader.read();
+        
+        String email = bodyJson.getValue("/email").toString();
+        String password = bodyJson.getValue("/password").toString();
+        
+        return "";
+    }
+}
