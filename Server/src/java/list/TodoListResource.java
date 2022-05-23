@@ -93,9 +93,7 @@ public class TodoListResource {
         String email = bodyJson.getValue("/email").toString();
         
         User user = userDao.getUser(email);
-        System.out.println("User");
         List<TodoList> lists = user.getTodoLists();
-        System.out.println("lists");
         
         JsonArrayBuilder jsonLists = Json.createArrayBuilder();
         for (TodoList list : lists) {
@@ -110,7 +108,6 @@ public class TodoListResource {
             jsonString = "[]";
         }
         
-        System.out.println(jsonString);
         return jsonString;
     }
     
