@@ -4,6 +4,7 @@
  */
 package auth;
 
+import jakarta.ejb.EJB;
 import jakarta.inject.Named;
 import jakarta.json.Json;
 import jakarta.json.JsonObjectBuilder;
@@ -30,6 +31,9 @@ public class AuthResource {
     @Context
     private HttpServletRequest request;
     
+    @EJB
+    AuthService authService;
+    
     @POST
     @Path("/login")
     public String login(String body) {
@@ -40,5 +44,19 @@ public class AuthResource {
         String password = bodyJson.getValue("/password").toString();
         
         return "";
+    }
+    
+    @POST
+    @Path("/signup")
+    public String signup(String body) {
+        JsonReader jsonReader = Json.createReader(new StringReader(body));
+        JsonStructure bodyJson = jsonReader.read();
+        
+        String email = bodyJson.getValue("/email").toString();
+        String password = bodyJson.getValue("/password").toString();
+        
+        authService.signup(email, password);
+        
+        return "Success";
     }
 }

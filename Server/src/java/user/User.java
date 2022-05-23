@@ -35,8 +35,12 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<TodoList> todoLists;
+    
+    public void addTodoList(TodoList list) {
+        this.todoLists.add(list);
+    }
     
     public JsonObject toJson() {
         JsonObjectBuilder out = Json.createObjectBuilder();

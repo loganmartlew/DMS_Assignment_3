@@ -8,6 +8,7 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import java.util.List;
 import user.User;
 import user.UserDAO;
 
@@ -29,8 +30,10 @@ public class TodoListDAO {
         
         TodoList newList = new TodoList();
         newList.setName(name);
-        newList.setUser(user);
         em.persist(newList);
+        
+        user.addTodoList(newList);
+        em.persist(user);
         
         return newList;
     }

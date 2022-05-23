@@ -41,6 +41,7 @@ public class Task implements Serializable {
     
     public JsonObject toJson() {
         JsonObjectBuilder out = Json.createObjectBuilder();
+        out.add("id", this.id);
         out.add("name", this.name);
         out.add("isComplete", this.isComplete);
         

@@ -20,6 +20,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.math.BigDecimal;
 import task.Task;
 import user.User;
 
@@ -42,12 +43,13 @@ public class TodoList implements Serializable {
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Task> tasks;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+//    @ManyToOne(cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private User user;
     
     public JsonObject toJson() {
         JsonObjectBuilder out = Json.createObjectBuilder();
+        out.add("id", this.id);
         out.add("name", this.name);
         
         JsonArrayBuilder tasks = Json.createArrayBuilder();
@@ -84,13 +86,13 @@ public class TodoList implements Serializable {
         this.tasks = tasks;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
     
     
 

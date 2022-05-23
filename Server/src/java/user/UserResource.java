@@ -54,10 +54,4 @@ public class UserResource {
         
         return jsonString;
     }
-    
-    @GET
-    @Path("/1")
-    public String something() {
-        return "hello";
-    }
 }
