@@ -11,6 +11,7 @@ import jakarta.inject.Named;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
 import jakarta.json.JsonStructure;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -58,8 +59,8 @@ public class TodoListResource {
             return Responses.getUnauthorisedResponse();
         }
         
-        String email = bodyJson.getValue("/email").toString();
-        String name = bodyJson.getValue("/name").toString();
+        String email = ((JsonString) bodyJson.getValue("/email")).getString();
+        String name = ((JsonString) bodyJson.getValue("/name")).getString();
         
         if (name == null || "".equals(name)) {
             return Responses.getMissingDataResponse();
@@ -90,7 +91,7 @@ public class TodoListResource {
             return Responses.getUnauthorisedResponse();
         }
         
-        String email = bodyJson.getValue("/email").toString();
+        String email = ((JsonString) bodyJson.getValue("/email")).getString();
         
         User user = userDao.getUser(email);
         List<TodoList> lists = user.getTodoLists();
@@ -139,8 +140,8 @@ public class TodoListResource {
     
     private void checkAuth(JsonStructure bodyJson) throws Exception {
         if (!authService.isLoggedIn()) {
-            String email = bodyJson.getValue("/email").toString();
-            String password = bodyJson.getValue("/password").toString();
+            String email = ((JsonString) bodyJson.getValue("/email")).getString();
+            String password = ((JsonString) bodyJson.getValue("/password")).getString();
 
             if (email == null || "".equals(email)) {
                 throw new NullPointerException();

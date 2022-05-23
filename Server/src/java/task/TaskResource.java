@@ -10,6 +10,7 @@ import jakarta.ejb.EJB;
 import jakarta.inject.Named;
 import jakarta.json.Json;
 import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
 import jakarta.json.JsonStructure;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.PATCH;
@@ -55,8 +56,8 @@ public class TaskResource {
             return Responses.getUnauthorisedResponse();
         }
         
-        String listId = bodyJson.getValue("/listId").toString();
-        String name = bodyJson.getValue("/name").toString();
+        String listId = ((JsonString) bodyJson.getValue("/listId")).getString();
+        String name = ((JsonString) bodyJson.getValue("/name")).getString();
         
         if (listId == null || "".equals(listId) || name == null || "".equals(name)) {
             return Responses.getMissingDataResponse();
@@ -103,8 +104,8 @@ public class TaskResource {
 
     private void checkAuth(JsonStructure bodyJson) throws Exception {
         if (!authService.isLoggedIn()) {
-            String email = bodyJson.getValue("/email").toString();
-            String password = bodyJson.getValue("/password").toString();
+            String email = ((JsonString) bodyJson.getValue("/email")).getString();
+            String password = ((JsonString) bodyJson.getValue("/password")).getString();
 
             if (email == null || "".equals(email)) {
                 throw new NullPointerException();

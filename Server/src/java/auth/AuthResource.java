@@ -9,6 +9,7 @@ import jakarta.inject.Named;
 import jakarta.json.Json;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
 import jakarta.json.JsonStructure;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.Consumes;
@@ -40,8 +41,8 @@ public class AuthResource {
         JsonReader jsonReader = Json.createReader(new StringReader(body));
         JsonStructure bodyJson = jsonReader.read();
         
-        String email = bodyJson.getValue("/email").toString();
-        String password = bodyJson.getValue("/password").toString();
+        String email = ((JsonString) bodyJson.getValue("/email")).getString();
+        String password = ((JsonString) bodyJson.getValue("/password")).getString();
         
         return "";
     }
@@ -52,8 +53,8 @@ public class AuthResource {
         JsonReader jsonReader = Json.createReader(new StringReader(body));
         JsonStructure bodyJson = jsonReader.read();
         
-        String email = bodyJson.getValue("/email").toString();
-        String password = bodyJson.getValue("/password").toString();
+        String email = ((JsonString) bodyJson.getValue("/email")).getString();
+        String password = ((JsonString) bodyJson.getValue("/password")).getString();
         
         authService.signup(email, password);
         
