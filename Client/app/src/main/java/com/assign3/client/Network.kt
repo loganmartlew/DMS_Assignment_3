@@ -5,22 +5,67 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
 
-private val SERVER_URL = "http://localhost:8080"
 
-fun getTodoLists(): JSONArray {
-    // TODO: create valid user request to server
-    val response = URL(SERVER_URL).readText()
-    return JSONArray(response)
+//private val TODOLIST_URL = URL("http://localhost:8080/todo/api/todolists")
+//private val TASK_URL = URL("http://localhost:8080/todo/api/tasks")
+private val URL = "http://localhost:8080/todo/api/"
+
+
+fun getTodoLists(email: String, password: String): ArrayList<TodoList> {
+    // GET from TODOLIST_URL
+    val connection = TODOLIST_URL.openConnection()
+
+    connection.setRequestethod("PUT")
+
+    val writer = connection.outputStream.writer()
+
+    writer.write("{\"email\":\"$email\",\"password\":\"$password\"")
+    writer.close()
+
+    val reader = connection.inputStream.reader()
+    val response = reader.readText()
+    reader.close()
+
+    val json = JSONArray(response)
+
+    val todoLists = ArrayList<TodoList>()
+    for (i in 0 until json.length()) {
+        todoLists.add(TodoList(json.getJSONObject(i)))
+    }
+
+    return todoLists
 }
 
-fun createTodoList(name: String): JSONObject {
-    // TODO: create valid user post to server
-    val response = URL(SERVER_URL).readText()
-    return JSONObject(response) // Returns the new TodoList
+
+fun createTodoList(email: String, password: String, name: String): TodoList {
+    // POST to TODOLIST_URL
+    val connection = TODOLIST_URL.openConnection()
+    connection.doOutput = true
+    val writer = connection.outputStream.writer()
+
+    writer.write("{\"email\":\"$email\",\"password\":\"$password\",\"name\":\"$name\"}")
+    writer.close()
+
+    val reader = connection.inputStream.reader()
+    val response = reader.readText()
+    reader.close()
+
+    return TodoList(JSONObject(response))
 }
 
-fun addTask(todoListId: Int, task: String): JSONObject {
-    // TODO: create valid new task post to server
-    val response = URL(SERVER_URL).readText()
-    return JSONObject(response) // Returns the updated TodoList
+
+fun addTask(email: String, password: String, todoListId: Long, task: String): TodoList {
+    // POST to TASK_URL
+    val connection = TASK_URL.openConnection()
+    connection.doOutput = true
+    val writer = connection.outputStream.writer()
+
+    writer.write("{\"email\":\"$email\",\"password\":\"$password\",\"todoListId\":$todoListId,\"task\":\"$task\"}")
+    writer.close()
+
+    val reader = connection.inputStream.reader()
+    val response = reader.readText()
+    reader.close()
+
+    return TodoList(JSONObject(response))
 }
