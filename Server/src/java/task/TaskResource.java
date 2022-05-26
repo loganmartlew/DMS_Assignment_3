@@ -13,7 +13,7 @@ import jakarta.json.JsonReader;
 import jakarta.json.JsonString;
 import jakarta.json.JsonStructure;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -77,7 +77,7 @@ public class TaskResource {
         return jsonString;
     }
     
-    @PATCH
+    @PUT
     @Path("{taskId}")
     public String toggleTask(@PathParam("taskId") String taskId, String body) {
         JsonReader jsonReader = Json.createReader(new StringReader(body));
