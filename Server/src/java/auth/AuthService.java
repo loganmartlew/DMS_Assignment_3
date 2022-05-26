@@ -21,10 +21,16 @@ public class AuthService {
     @EJB
     UserDAO userDao;
     
-    public void login(String email, String password) {
+    public String getUserEmail() {
+        return this.userEmail;
+    }
+    
+    public void login(String email, String password) throws Exception {
         User user = userDao.getUser(email);
         if (password.equals(user.getPassword())) {
             this.userEmail = user.getEmail();
+        } else {
+            throw new Exception();
         }
     }
     
