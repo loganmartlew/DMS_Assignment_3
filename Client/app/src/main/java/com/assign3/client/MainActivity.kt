@@ -10,13 +10,13 @@ class MainActivity : AppCompatActivity() {
 
         // When activity starts prompt for an email and password
 
-//        // ADD HERE
-//        lvItems = (ListView) findViewById(R.id.lvItems)
-//        items = new ArrayList<String>()
-//        itemsAdapter = new ArrayAdapter<String>(this,
-//				android.R.layout.simple_list_item_1, items)
-//        lvItems.setAdapter(itemsAdapter)
-//        items.add("First Item")
-//        items.add("Second Item")
+        // ADD HERE
+        lvItems = (ListView) findViewById(R.id.lvItems)
+        items = new ArrayList<String>()
+        itemsAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, items)
+        lvItems.setAdapter(itemsAdapter)
+        items.add("First Item")
+        items.add("Second Item")
     }
 }
