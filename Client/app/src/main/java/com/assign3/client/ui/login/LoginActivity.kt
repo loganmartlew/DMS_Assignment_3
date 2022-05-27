@@ -19,7 +19,7 @@ import com.assign3.client.R
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
-private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +27,14 @@ private lateinit var binding: ActivityLoginBinding
      binding = ActivityLoginBinding.inflate(layoutInflater)
      setContentView(binding.root)
 
-        val username = binding.username
-        val password = binding.password
+        val signup_username = binding.signupUsername
+        val signup_password = binding.signupPassword
+        val signup = binding.signup
+
+        val login_username = binding.loginUsername
+        val login_password = binding.loginPassword
         val login = binding.login
+
         val loading = binding.loading
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
@@ -42,10 +47,20 @@ private lateinit var binding: ActivityLoginBinding
             login.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
+                login_username.error = getString(loginState.usernameError)
             }
             if (loginState.passwordError != null) {
-               password.error = getString(loginState.passwordError)
+                login_password.error = getString(loginState.passwordError)
+            }
+
+            // disable signup button unless both username / password is valid
+            signup.isEnabled = loginState.isDataValid
+
+            if (loginState.usernameError != null) {
+                signup_username.error = getString(loginState.usernameError)
+            }
+            if (loginState.passwordError != null) {
+                signup_password.error = getString(loginState.passwordError)
             }
         })
 
@@ -65,27 +80,27 @@ private lateinit var binding: ActivityLoginBinding
             finish()
         })
 
-        username.afterTextChanged {
+        signup_username.afterTextChanged {
             loginViewModel.loginDataChanged(
-                username.text.toString(),
-                password.text.toString()
+                signup_username.text.toString(),
+                signup_password.text.toString()
             )
         }
 
-        password.apply {
+        signup_password.apply {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
-                    username.text.toString(),
-                    password.text.toString()
+                    signup_username.text.toString(),
+                    signup_password.text.toString()
                 )
             }
 
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
+                        loginViewModel.signup(
+                            signup_username.text.toString(),
+                            signup_password.text.toString()
                         )
                 }
                 false
@@ -93,7 +108,49 @@ private lateinit var binding: ActivityLoginBinding
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                loginViewModel.login(login_username.text.toString(), login_password.text.toString())
+            }
+
+            signup.setOnClickListener {
+                loading.visibility = View.VISIBLE
+                loginViewModel.signup(signup_username.text.toString(), signup_password.text.toString())
+            }
+        }
+
+        login_username.afterTextChanged {
+            loginViewModel.loginDataChanged(
+                login_username.text.toString(),
+                login_password.text.toString()
+            )
+        }
+
+        login_password.apply {
+            afterTextChanged {
+                loginViewModel.loginDataChanged(
+                    login_username.text.toString(),
+                    login_password.text.toString()
+                )
+            }
+
+            setOnEditorActionListener { _, actionId, _ ->
+                when (actionId) {
+                    EditorInfo.IME_ACTION_DONE ->
+                        loginViewModel.login(
+                            login_username.text.toString(),
+                            login_password.text.toString()
+                        )
+                }
+                false
+            }
+
+            login.setOnClickListener {
+                loading.visibility = View.VISIBLE
+                loginViewModel.login(login_username.text.toString(), login_password.text.toString())
+            }
+
+            signup.setOnClickListener {
+                loading.visibility = View.VISIBLE
+                loginViewModel.signup(signup_username.text.toString(), signup_password.text.toString())
             }
         }
     }

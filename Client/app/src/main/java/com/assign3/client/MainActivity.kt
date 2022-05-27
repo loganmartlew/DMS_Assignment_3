@@ -12,7 +12,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var itemsAdapter: ArrayAdapter<String>
     private lateinit var lvItems: ListView
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,6 +32,5 @@ class MainActivity : AppCompatActivity() {
         val etNewItem = findViewById<View>(R.id.etNewItem) as EditText
         val itemText = etNewItem.text.toString()
         itemsAdapter.add(itemText)
-
     }
 }
