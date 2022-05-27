@@ -7,13 +7,12 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-//private val TODOLIST_URL = URL("http://localhost:8080/todo/api/todolists")
+private const val ROOT_URL = "http://localhost:8080/todo/api/"
 
-private val SIGNUP_URL = "http://localhost:8080/todo/api/auth/signup"  // POST
-private val TASK_URL = "http://localhost:8080/todo/api/tasks"  // POST, PUT
-private val TODOLIST_URL = "http://localhost:8080/todo/api/todolists"  // POST
-private val GET_TODOLIST_URL = "http://localhost:8080/todo/api/todolists/getuserlists"  // POST
-
+private const val SIGNUP_URL = ROOT_URL + "auth/signup"  // POST
+private const val TASK_URL = ROOT_URL + "tasks"  // POST, PUT
+private const val TODOLIST_URL = ROOT_URL + "todolists"  // POST
+private const val GET_TODOLIST_URL = ROOT_URL + "todolists/getuserlists"  // POST
 
 fun signup(email: String, password: String) {
     // POST /auth/signup - creates a new user, returns nothing. Needs email, password
@@ -28,7 +27,7 @@ fun signup(email: String, password: String) {
     writer.close()
 }
 
-fun addTask(email: String, password: String, todoListId: Long, task: String): TodoList {
+fun addTask(email: String, password: String, listId: Long, task: String): TodoList {
     // POST /tasks - creates a new task, returns the list the task was added to. Needs email, password, listId, name
 
     val connection = URL(TASK_URL).openConnection() as HttpURLConnection
@@ -37,7 +36,7 @@ fun addTask(email: String, password: String, todoListId: Long, task: String): To
 
     val writer = connection.outputStream.writer()
 
-    writer.write("{\"email\":\"$email\",\"password\":\"$password\",\"todoListId\":$todoListId,\"task\":\"$task\"}")
+    writer.write("{\"email\":\"$email\",\"password\":\"$password\",\"listId\":$listId,\"task\":\"$task\"}")
     writer.close()
 
     val reader = connection.inputStream.reader()
@@ -70,7 +69,7 @@ fun toggleTaskCompletion(email: String, password: String, taskId: Long): Task {
 
 
 fun createTodoList(email: String, password: String, name: String): TodoList {
-    // POST /todolists - creates a new todo list, returns the new list. Needs email, password, name
+    // POST /todolists - creates a new todolist, returns the new list. Needs email, password, name
 
     val connection = URL(TODOLIST_URL).openConnection() as HttpURLConnection
     connection.requestMethod = "POST"
@@ -89,8 +88,8 @@ fun createTodoList(email: String, password: String, name: String): TodoList {
 }
 
 
-fun getTodoLists(email: String, password: String): List<TodoList> {
-    // POST /todolists/getuserlists - returns all todo lists for the user. Needs email, password
+fun getTodoLists(email: String, password: String): ArrayList<TodoList> {
+    // POST /todolists/getuserlists - returns all todolists for the user. Needs email, password
 
     val connection = URL(GET_TODOLIST_URL).openConnection() as HttpURLConnection
     connection.requestMethod = "POST"
@@ -116,10 +115,10 @@ fun getTodoLists(email: String, password: String): List<TodoList> {
 }
 
 
-fun getTodoList(email: String, password: String, todoListId: Long): TodoList {
-    // POST /todolists/{todoListId} - returns the todo list with the given id. Needs email, password, todoListId as path parameter
+fun getTodoList(email: String, password: String, listId: Long): TodoList {
+    // POST /todolists/{listId} - returns the todolist with the given id. Needs email, password, listId as path parameter
 
-    val url = "$TODOLIST_URL/$todoListId"
+    val url = "$TODOLIST_URL/$listId"
     val connection = URL(url).openConnection() as HttpURLConnection
     connection.requestMethod = "POST"
     connection.doOutput = true

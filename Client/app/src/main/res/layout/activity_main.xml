@@ -33,5 +33,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:text="Add Item" />
+        android:onClick="onAddItem" />
 
 </RelativeLayout>
