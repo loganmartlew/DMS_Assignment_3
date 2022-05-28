@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun handleSignup() {
-
+    fun handleSignup(view: View) {
+        val intent = Intent(this, SignupActivity::class.java)
+        startActivity(intent)
     }
 }
